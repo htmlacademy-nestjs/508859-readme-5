@@ -12,6 +12,8 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
   public dateOfBirth: Date;
   public role: UserRole;
   public passwordHash: string;
+  public countPublications?: number; 
+  public countSubscribers?: number;
 
   constructor(user: AuthUser) {
     this.populate(user)
@@ -28,6 +30,8 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
       dateOfBirth: this.dateOfBirth,
       role: this.role,
       passwordHash: this.passwordHash,
+      countPublications: this.countPublications || 0,
+      countSubscribers: this.countSubscribers || 0
     };
   }
 
@@ -38,6 +42,8 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     this.lastName = data.lastName;
     this.dateOfBirth = data.dateOfBirth;
     this.role = data.role;
+    this.countPublications = data.countPublications;
+    this.countSubscribers = data.countSubscribers;
   }
 
   public async setPassword(password: string): Promise<BlogUserEntity> {

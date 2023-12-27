@@ -12,12 +12,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-  .setTitle('The «Users» service')
-  .setDescription('Users service API')
+  .setTitle('The «User» service')
+  .setDescription('User service API')
   .setVersion('1.0')
   .build();
   
-  const globalPrefix = 'api';
+  const globalPrefix = 'api/v1';
   app.setGlobalPrefix(globalPrefix);
 
   const document = SwaggerModule.createDocument(app, config);

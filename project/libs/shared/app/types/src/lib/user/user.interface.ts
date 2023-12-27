@@ -7,5 +7,7 @@ export interface User {
     lastName: string;
     dateOfBirth: Date;
     role: UserRole;
-    // avatar?: string;
+    countPublications?: number;
+    countSubscribers?: number;
+    avatarId?: string;
 }
