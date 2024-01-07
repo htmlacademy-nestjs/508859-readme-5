@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -54,8 +55,13 @@ export class AuthenticationService {
     
         return existUser;
       }
-    
-      public async getUser(id: string) {
-        return this.blogUserRepository.findById(id);
+
+      public async changePassword(dto: ChangePasswordDto) {
+        const {currentPassword, newPassword} = dto;
+         
       }
+    
+      // public async getUser(id: string) {
+      //   return this.blogUserRepository.findById(id);
+      // }
 }

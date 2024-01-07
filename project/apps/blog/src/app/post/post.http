@@ -1,0 +1,42 @@
+# Create a new text post
+POST http://localhost:3001/api/posts/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "text",
+  "content": {
+    "title": "Новый пост",
+    "announce": "Аннотация нового поста",
+    "description": "Описание"
+  }
+}
+
+# # Create a new quote post
+# POST http://localhost:3001/api/posts/create HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "type": "quote",
+#   "content": {
+#     "author": "Илья Колмаков",
+#     "description": "Описание"
+#   }
+# }
+
+###
+
+# Get post by ID
+GET http://localhost:3001/api/posts/7f1bb478-b93c-4bf6-9911-8a4f1aca8b8c HTTP/1.1
+
+###
+
+# Login user by email and password
+POST http://localhost:3000/v1/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "password": "123456"
+}
+
+###

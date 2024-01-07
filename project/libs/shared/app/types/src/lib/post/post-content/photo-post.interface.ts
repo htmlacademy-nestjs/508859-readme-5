@@ -1,5 +1,5 @@
 import { PostContent } from './post-content.interface';
 
-export interface PhotoPost extends PostContent {
+export interface PhotoPostContent extends PostContent {
     img: File;
 }

@@ -7,6 +7,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -41,13 +42,24 @@ export class AuthenticationController {
     }
     
     @ApiResponse({
-        type: UserRdo,
         status: HttpStatus.OK,
-        description: 'User found'
+        description: 'User has been successfully changed password.'
     })
-    @Get(':id')
-    public async show(@Param('id') id: string) {
-        const existUser = await this.authService.getUser(id) as BlogUserEntity;
-        return fillDto(UserRdo, existUser.toPOJO());
+    @Post('change-password')
+    @HttpCode(200)
+    public async changePassword(@Body() dto: ChangePasswordDto) {
+      const isChangedPassword = await this.authService.changePassword(dto);
+      return isChangedPassword;
     }
+    
+    // @ApiResponse({
+    //     type: UserRdo,
+    //     status: HttpStatus.OK,
+    //     description: 'User found'
+    // })
+    // @Get(':id')
+    // public async show(@Param('id') id: string) {
+    //     const existUser = await this.authService.getUser(id) as BlogUserEntity;
+    //     return fillDto(UserRdo, existUser.toPOJO());
+    // }
   }

@@ -6,10 +6,11 @@ export interface Post {
     id?: string;
     type: PostType;
     contentId: string;
+    content?: any;
     authorId: string;
     // author: Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>
     dateOfBirth: Date;
-    datePublish: Date;
+    datePublication: Date;
     state: PostState;
     countLikes?: number;
     countComments?: number;
