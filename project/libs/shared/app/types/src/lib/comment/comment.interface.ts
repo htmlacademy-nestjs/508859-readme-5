@@ -1,9 +1,9 @@
-// import { User } from '../user/user.interface';
+import { User } from '../user/user.interface';
 
 export interface Comment {
     id?: string;
     text: string;
-    authorId: string;
-    // author: Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>;
+    postId: string;
+    author: string;
     dateOfBirth: Date;
 }

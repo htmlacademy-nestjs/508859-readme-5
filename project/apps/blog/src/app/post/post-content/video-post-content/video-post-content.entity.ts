@@ -5,7 +5,7 @@ export class VideoPostContentEntity implements VideoPostContent, Entity<string> 
   public id?: string;
   public title: string;
   public link: string;
-  public tags?: string[] = [];
+  public postId?: string;
 
   constructor(postContent: VideoPostContent) {
     this.populate(postContent)
@@ -14,15 +14,15 @@ export class VideoPostContentEntity implements VideoPostContent, Entity<string> 
   public toPOJO() {
     return {
       id: this.id,
+      postId: this.postId,
       title: this.title,
       link: this.link,
-      tags: this.tags,
     };
   }
 
   public populate(data: VideoPostContent): void {
     this.title = data.title;
     this.link = data.link;
-    this.tags = data.tags;
+    this.postId = data.postId;
   }
 }

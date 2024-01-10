@@ -1,4 +1,4 @@
 export interface PostContent {
     id?: string;
-    tags?: string[];
+    postId?: string;
 }

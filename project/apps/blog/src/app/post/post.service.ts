@@ -7,6 +7,7 @@ import { PostState } from '@project/libs/shared/app/types';
 import { PostEntity } from './post.entity';
 import { PostContentRepositoryFactory } from './post-content.factory';
 import { PostError } from './post.constant';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostService {
@@ -20,42 +21,33 @@ export class PostService {
     }
 
     public async createPost(dto: CreatePostDto) {
-        const { type, content } = dto;
-        // const { email, firstName, lastName, password, dateBirth } = dto;
+        const { type, title, content } = dto;
 
-        const postContentRepository = this.postContentRepositoryFactory.create(type);
-        const postContent = await postContentRepository.save(content);
-
-        const newPost = {
+        const post = {
           type,
-          contentId: postContent.id,
-          authorId: randomUUID(),
-        //   author: {
-        //     id: randomUUID(),
-        //     firstName: 'Ilya',
-        //     lastName: 'Kolmakov',
-        //     email: 'ilkolmakov@yandex.ru'
-        //   },
+          title,
+          // authorId: randomUUID(),
+          author: {
+            id: randomUUID(),
+            firstName: 'Ilya',
+            lastName: 'Kolmakov',
+            email: 'ilkolmakov@yandex.ru'
+          },
           dateOfBirth: dayjs(new Date()).toDate(),
           datePublication: dayjs(new Date()).toDate(),
           state: PostState.Draft,
         };
 
-        const postEntity = await new PostEntity(newPost);
+        const postEntity = await new PostEntity(post);
 
-        return this.postRepository.save(postEntity);
-  
-        // const existUser = await this.blogUserRepository.findByEmail(email);
-  
-        // if (existUser) {
-        //   throw new ConflictException(AUTH_USER_EXISTS);
-        // }
-  
-        // const userEntity = await new BlogUserEntity(blogUser);
-        // // INFO: Здесь устанавливаем пароль
-        // const userEntityWithPassword = await userEntity.setPassword(password);
-  
-        // return this.blogUserRepository.save(userEntityWithPassword);
+        const newPost = await this.postRepository.save(postEntity)
+
+        const postContentRepository = this.postContentRepositoryFactory.create(type);
+        const postContent = await postContentRepository.save({...content, postId: newPost.id});
+
+        newPost.content = postContent;
+
+        return newPost;
     }
 
     public async getPost(id: string) {
@@ -66,7 +58,7 @@ export class PostService {
       }
 
       const contentPostRepository = this.postContentRepositoryFactory.create(currentPost.type);
-      const currentContentPost = await contentPostRepository.findById(currentPost.contentId);
+      const currentContentPost = await contentPostRepository.findByPostId(currentPost.id);
       
       if (!currentContentPost) {
         throw new NotFoundException(PostError.NOT_FOUND_POST_CONTENT);
@@ -75,5 +67,49 @@ export class PostService {
       currentPost.content = currentContentPost;
 
       return currentPost;
+    }
+
+    public async updatePost(id: string, dto: UpdatePostDto) {
+      const {type, title, content} = dto;
+      const currentPost = await this.postRepository.findById(id);
+
+      if (!currentPost) {
+        throw new NotFoundException(PostError.NOT_FOUND_POST);
+      }
+
+      const contentPostRepository = this.postContentRepositoryFactory.create(type);
+      const postContent = await contentPostRepository.save({...content, postId: currentPost.id});
+      
+      if (!postContent) {
+        throw new NotFoundException(PostError.NOT_FOUND_POST_CONTENT);
+      }
+
+      currentPost.title = title;
+      currentPost.datePublication = dayjs(new Date()).toDate();
+      
+      const updatedPost = await this.postRepository.save(currentPost);
+
+      updatedPost.content = postContent;
+
+      return updatedPost;
+    }
+
+    public async deletePost(id: string) {
+      const currentPost = await this.postRepository.findById(id);
+
+      if (!currentPost) {
+        throw new NotFoundException(PostError.NOT_FOUND_POST);
+      }
+
+      if (!currentPost.content?.id) {
+        throw new NotFoundException(PostError.NOT_FOUND_POST_CONTENT);
+      }
+
+      const contentPostRepository = this.postContentRepositoryFactory.create(currentPost.type);
+      
+      await contentPostRepository.deleteById(currentPost.content?.id);
+      await this.postRepository.deleteById(currentPost.id);
+
+      return id;
     }
 }

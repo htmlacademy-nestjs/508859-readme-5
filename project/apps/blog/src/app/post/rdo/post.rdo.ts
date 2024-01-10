@@ -9,6 +9,13 @@ export class PostRdo {
     })
     @Expose()
     public id: string;
+
+    @ApiProperty({
+        description: 'Post title',
+        example: 'title'
+    })
+    @Expose()
+    public title: string;
     
     @ApiProperty({
         description: 'Post type',

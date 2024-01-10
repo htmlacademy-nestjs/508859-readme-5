@@ -1,13 +1,14 @@
-import { Post, PostState, PostType } from '@project/libs/shared/app/types';
+import { Post, PostState, PostType, User } from '@project/libs/shared/app/types';
 import { Entity } from '@project/libs/shared/core';
+import { PostContent } from './types';
 
 export class PostEntity implements Post, Entity<string> {
   public id?: string;
+  public title: string;
   public type: PostType;
-  public contentId: string;
-  // TODO: Временное решение
-  public content?: any;
-  public authorId: string;
+  public content?: PostContent;
+  public author: Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>;
+  // public authorId: string;
   public dateOfBirth: Date;
   public datePublication: Date;
   public state: PostState;
@@ -23,12 +24,11 @@ export class PostEntity implements Post, Entity<string> {
   public toPOJO() {
     return {
       id: this.id,
+      title: this.title,
       type: this.type,
-      // TODO: Какими должны быть параметры здесь?
-      contentId: this.contentId,
       content: this.content,
-      
-      authorId: this.authorId,
+      // authorId: this.authorId,
+      author: this.author,
       dateOfBirth: this.dateOfBirth,
       datePublication: this.datePublication,
       state: this.state,
@@ -39,12 +39,10 @@ export class PostEntity implements Post, Entity<string> {
 
   // Позволяет заполнить экземпляр
   public populate(data: Post): void {
+    this.title = data.title;
     this.type = data.type;
-
-    this.contentId = data.contentId;
     this.content = data.content;
-
-    this.authorId = data.authorId;
+    this.author = data.author;
     this.dateOfBirth = data.dateOfBirth;
     this.datePublication = data.datePublication;
     this.state = data.state;

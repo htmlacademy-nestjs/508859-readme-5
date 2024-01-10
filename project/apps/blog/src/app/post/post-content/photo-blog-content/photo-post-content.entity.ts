@@ -3,8 +3,8 @@ import { Entity } from '@project/libs/shared/core';
 
 export class PhotoPostContentEntity implements PhotoPostContent, Entity<string> {
   public id?: string;
+  public postId?: string;
   public img: File;
-  public tags?: string[] = [];
 
   constructor(postContent: PhotoPostContent) {
     this.populate(postContent)
@@ -13,13 +13,13 @@ export class PhotoPostContentEntity implements PhotoPostContent, Entity<string> 
   public toPOJO() {
     return {
       id: this.id,
+      postId: this.postId,
       img: this.img,
-      tags: this.tags,
     };
   }
 
   public populate(data: PhotoPostContent): void {
+    this.postId = data.postId;
     this.img = data.img;
-    this.tags = data.tags;
   }
 }

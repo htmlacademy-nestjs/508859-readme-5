@@ -1,42 +1,41 @@
 # Create a new text post
-POST http://localhost:3001/api/posts/create HTTP/1.1
+POST http://localhost:3000/api/posts/create HTTP/1.1
 Content-Type: application/json
 
 {
   "type": "text",
+  "title": "Заголовок",
   "content": {
-    "title": "Новый пост",
+    "title": "Заголовок контента",
     "announce": "Аннотация нового поста",
     "description": "Описание"
   }
 }
 
-# # Create a new quote post
-# POST http://localhost:3001/api/posts/create HTTP/1.1
-# Content-Type: application/json
+###
 
-# {
-#   "type": "quote",
-#   "content": {
-#     "author": "Илья Колмаков",
-#     "description": "Описание"
-#   }
-# }
+# Update post
+POST http://localhost:3000/api/posts/85e4a75f-b699-4fd4-bd89-411e45660ae5 HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "text",
+  "title": "Заголовок 123",
+  "content": {
+    "title": "Новый заголовок контента",
+    "announce": "Аннотация нового поста 1",
+    "description": "Описание 1"
+  }
+}
 
 ###
 
 # Get post by ID
-GET http://localhost:3001/api/posts/7f1bb478-b93c-4bf6-9911-8a4f1aca8b8c HTTP/1.1
+GET http://localhost:3000/api/posts/adfab806-0605-4fea-be7f-235167858b7f HTTP/1.1
 
 ###
 
-# Login user by email and password
-POST http://localhost:3000/v1/api/auth/login HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "user@notfound.local",
-  "password": "123456"
-}
+# Delete post by id
+DELETE http://localhost:3000/api/posts/adfab806-0605-4fea-be7f-235167858b7f HTTP/1.1
 
 ###

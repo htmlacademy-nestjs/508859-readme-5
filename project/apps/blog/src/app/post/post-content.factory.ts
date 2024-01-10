@@ -20,7 +20,7 @@ export class PostContentRepositoryFactory {
     private readonly textPostContentRepository: TextPostContentRepository
   ) {}
 
-  create(type: PostType): Repository<any> {
+  create(type: PostType): any { // Repository<any> 
     switch (type) {
       case PostType.Link:
         return this.linkPostContentRepository;

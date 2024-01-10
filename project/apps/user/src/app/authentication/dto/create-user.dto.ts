@@ -6,7 +6,6 @@ export class CreateUserDto {
         example: 'user@user.ru'
     })
     public email: string;
-    // TODO: Откуда это поле здесь? Как оно указывается при создании?
     @ApiProperty({
         description: 'User birth date',
         example: '1981-03-12',
