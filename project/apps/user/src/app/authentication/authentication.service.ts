@@ -43,7 +43,6 @@ export class AuthenticationService {
     public async verifyUser(dto: LoginUserDto) {
         const {email, password} = dto;
         const existUser = await this.blogUserRepository.findByEmail(email);
-        console.log('existUser', existUser);
     
         if (!existUser) {
           throw new NotFoundException(AUTH_USER_NOT_FOUND);

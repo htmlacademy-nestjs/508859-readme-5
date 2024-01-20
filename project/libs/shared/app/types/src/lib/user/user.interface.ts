@@ -9,5 +9,6 @@ export interface User {
     role: UserRole;
     countPublications?: number;
     countSubscribers?: number;
-    avatarId?: string;
+    // TODO: Или avatarId нужно передавать?
+    avatar?: string;
 }
