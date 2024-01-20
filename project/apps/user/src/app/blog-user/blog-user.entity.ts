@@ -12,6 +12,7 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
   public dateOfBirth: Date;
   public role: UserRole;
   public passwordHash: string;
+  public avatar?: string;
   public countPublications?: number; 
   public countSubscribers?: number;
 
@@ -29,6 +30,7 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
       lastName: this.lastName,
       dateOfBirth: this.dateOfBirth,
       role: this.role,
+      avatar: this.avatar,
       passwordHash: this.passwordHash,
       countPublications: this.countPublications || 0,
       countSubscribers: this.countSubscribers || 0
@@ -41,7 +43,9 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     this.firstName = data.firstName;
     this.lastName = data.lastName;
     this.dateOfBirth = data.dateOfBirth;
+    this.avatar = data.avatar;
     this.role = data.role;
+    this.passwordHash = data.passwordHash;
     this.countPublications = data.countPublications;
     this.countSubscribers = data.countSubscribers;
   }
@@ -58,4 +62,7 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     return compare(password, this.passwordHash);
   }
 
+  static fromObject(data: AuthUser): BlogUserEntity {
+    return new BlogUserEntity(data);
+  }
 }
